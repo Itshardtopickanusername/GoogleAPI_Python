@@ -1,0 +1,250 @@
+# api key
+> AIzaSyDedGx5Bw3lpOwXewmJ7FAcT0HEBF3la9s
+---
+___
+
+
+##Place Details
+    returns more detailed information about a specific place, including user reviews.
+https://maps.googleapis.com/maps/api/place/details/output?parameters
+- ----------------------------------/place/details/-----------------
+- required parameters:
+    * key
+    * placeid
+- optional parameters:
+    * language
+    * region
+    * sessiontoken
+    * fields
+        - basic
+            * "address_component", "adr_address", "alt_id", "formatted_address",
+            * "geometry", "icon", "id", "name", "permanently_closed",
+            * "photo"
+                - photos[]
+                    * photo_reference
+                    * height
+                    * width
+                    * html_attributions[]
+            * "place_id", "plus_code", "scope", "type", "url", "utc_offset", "vicinity"
+        - contact
+            * "formatted_phone_number", "international_phone_number", "website",
+            * "opening_hours"
+                - open_now
+                - periods[]
+                    * open
+                        - day
+                        - time
+                    * close
+                - weekday_text
+        - atmosphere
+            * "price_level", "rating", "review"
+
+* python function: googlemaps.places.place()
+* uses: /maps/api/place/details/json
+
+#*-
+Warning:
+If you do not specify at least one field with a request, or if you omit
+the fields parameter from a request, ALL possible fields will be returned,
+and you will be billed accordingly. This applies only to Place Details requests.
+-
+
+---
+---
+## Find Place requests
+    A Find Place request takes a text input, and returns a place. The text input
+    can be any kind of Places data, for example, a name, address, or phone number.
+https://maps.googleapis.com/maps/api/place/findplacefromtext/output?parameters
+- ----------------------------------/place/findplacefromtext/-----------------
+- required parameters:
+    * key
+    * input
+    * inputtype
+- optional parameters:
+    * language
+    * locationbias
+    * fields
+        - basic
+            * "formatted_address", "geometry", "icon", "id", "name", "types",
+            * "permanently_closed", "photos", "place_id", "plus_code", "scope"
+        - contact
+            * "opening_hours"
+                - open_now
+        - atmosphere
+            * "price_level", "rating"
+
+1. example
+    * https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Museum%20of%20Contemporary%20Art%20Australia&inputtype=textquery&fields=photos,formatted_address,name,rating,opening_hours,geometry&key=YOUR_API_KEY
+2. example
+    * https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=mongolian%20grill&inputtype=textquery&fields=photos,formatted_address,name,opening_hours,rating&locationbias=circle:2000@47.6918452,-122.2226413&key=YOUR_API_KEY
+3. example
+    * https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%2B61293744000&inputtype=phonenumber&fields=place_id&key=YOUR_API_KEY
+
+
+googlemaps.places.find_place()
+uses /maps/api/place/findplacefromtext/json
+
+> Note: If you omit the fields parameter from a Find Place request,
+> only the place_id for the result will be returned.
+
+---
+# Nearby Search requests
+    A Nearby Search lets you search for places within a specified area.
+    You can refine your search request by supplying keywords or specifying
+------------------------------------/place/nearbysearch/----------------
+https://maps.googleapis.com/maps/api/place/nearbysearch/output?parameters
+- required parameters:
+    * key
+    * location
+    * radius
+    * f rankby=distance (described under Optional parameters below) is specified, then one or more of keyword, name, or type is required.
+
+- optional parameters:
+    * keyword
+    * language
+    * minprice and maxprice
+    * name
+    * opennow
+    * rankby
+        - prominence
+        - distance
+    * type
+    * pagetoken
+1. example
+    - https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=YOUR_API_KEY
+
+gmap.places.places_nearby()
+uses /maps/api/place/nearbysearch/json
+
+---
+# Text Search requests
+    returns information about a set of places based on a string — for example
+    "pizza in New York" or "shoe stores near Ottawa" or "123 Main Street". The
+    service responds with a list of places matching the text string and any
+    location bias that has been set.
+------------------------------------/place/textsearch/-----------------
+https://maps.googleapis.com/maps/api/place/textsearch/output?parameters
+- required parameters:
+    * key
+    * query
+- optional parameters:
+    * region
+    * location
+    * radius
+    * language
+    * minprice and maxprice
+    * opennow
+    * pagetoken
+    * type
+
+1. example
+    - https://maps.googleapis.com/maps/api/place/textsearch/xml?query=restaurants+in+Sydney&key=YOUR_API_KEY
+2. example
+    - https://maps.googleapis.com/maps/api/place/textsearch/json?query=123+main+street&key=YOUR_API_KEY
+3. example
+    - https://maps.googleapis.com/maps/api/place/textsearch/json?query=123+main+street&location=42.3675294,-71.186966&radius=10000&key=YOUR_API_KEY
+gmap.places.places()
+uses /maps/api/place/textsearch/json
+
+---
+# gmap.places.places_photo()
+# uses /maps/api/place/photo
+
+# gmap.places.places_autocomplete_query()
+# uses /maps/api/place/queryautocomplete/json
+
+# gmap.places.places_autocomplete()
+# uses /maps/api/place/autocomplete/json
+
+---
+#types
+    accounting
+    airport
+    amusement_park
+    aquarium
+    art_gallery
+    atm
+    bakery
+    bank
+    bar
+    beauty_salon
+    bicycle_store
+    book_store
+    bowling_alley
+    bus_station
+    cafe
+    campground
+    car_dealer
+    car_rental
+    car_repair
+    car_wash
+    casino
+    cemetery
+    church
+    city_hall
+    clothing_store
+    convenience_store
+    courthouse
+    dentist
+    department_store
+    doctor
+    electrician
+    electronics_store
+    embassy
+    fire_station
+    florist
+    funeral_home
+    furniture_store
+    gas_station
+    gym
+    hair_care
+    hardware_store
+    hindu_temple
+    home_goods_store
+    hospital
+    insurance_agency
+    jewelry_store
+    laundry
+    lawyer
+    library
+    liquor_store
+    local_government_office
+    locksmith
+    lodging
+    meal_delivery
+    meal_takeaway
+    mosque
+    movie_rental
+    movie_theater
+    moving_company
+    museum
+    night_club
+    painter
+    park
+    parking
+    pet_store
+    pharmacy
+    physiotherapist
+    plumber
+    police
+    post_office
+    real_estate_agency
+    restaurant
+    roofing_contractor
+    rv_park
+    school
+    shoe_store
+    shopping_mall
+    spa
+    stadium
+    storage
+    store
+    subway_station
+    supermarket
+    synagogue
+    taxi_stand
+    train_station
+    transit_station
+    travel_agency
+    veterinary_care
+    zoo
